@@ -3,9 +3,9 @@ import { addAgente } from '../dominio/store/agente-slice'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import {Wrapper, Button} from '../styles-components/vistas/Personas'
-
+import { LabelF, SelectorV } from '../styles-components/formularios/FormAgente'
+import InputComponent from '../elementos/InputComponent'
 import { AgenteConsulta } from '../dominio/store/agente-thunx'
-import { Form, FormControl } from 'react-bootstrap'
 
 
 const uri = 'http://200.12.136.74:4000/biometrico/'
@@ -47,55 +47,55 @@ const BuscarPersona = () => {
 
     useEffect(()=>{
         
-        setRutap (`${uri}agente_name/${patronb}`)
+        setRutap (`${uri}agente_name/${patronb.campo}`)
        //  console.log(rutap)
         
 
 
-    },[patronb])
+    },[patronb.campo])
 
 
     const buscarInfo =()=>{
-       // console.log(document.getElementById('personas').value)
         dispatch(addAgente(document.getElementById('personas').value))
         dispatch(AgenteConsulta(document.getElementById('personas').value))
     }
 
 
 
-    const onHandleChange =()=>{
-        // 
-        setPatronb(document.getElementById("busqueda").value)
-        // buscarAgentes()
-    
-      }
+
 
   return (
     <Wrapper>
-    <div className='container ml-4'>
+    <div className='container'>
 
 
             <div className='row'>
             <div className='col-md-4'>
-            <Form.Label htmlFor="busqueda"> Buscar </Form.Label>
-            <FormControl 
-            type="text"
-            id="busqueda"
-            onChange={onHandleChange}
-            value={patronb}
-            
-          />
 
 
+                <InputComponent 
+                    tipo='text'
+                    name='search'
+                    infoplace='Patron de Busqueda'
+                    estado={patronb}
+                    cambiarEstado={setPatronb}
+                    label='Ingrese Patron de Busqueda'
+                    leyendaErr='no ingrese digitos numericos'
+                    expreg={expresiones.patronb}
+
+              />
             </div>
             <div  className='col-md-4'>
+                <LabelF htmlFor='personas'>Listado Agente</LabelF>
+                <SelectorV name="personas" id='personas'>
+                {agentes.map((elemento, index)=>(
+                        <option value={elemento.legajo} key={index}>
+                            {elemento.apellido}
+                        </option>
+                    ))
 
-            <Form.Label htmlFor="personas"> Agentes </Form.Label>
-            <Form.Select id="personas">
-                { agentes.length>0 ? agentes.map((age,ind)=>
-                <option key={ind} value={age.legajo.toString()}>{age.apellido}</option>
-                ):null}
-            </Form.Select>
+                    }
+                </SelectorV>
             </div>
 
 

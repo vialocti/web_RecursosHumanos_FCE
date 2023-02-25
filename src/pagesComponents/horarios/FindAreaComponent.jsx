@@ -126,7 +126,9 @@ const FindAreaComponent = () => {
             <option value="Secretaria_de_Asustos_Estudiantiles">Secretaria de Asustos Estudiantiles</option>
             <option value="Secretaría_de_Extensión_y_RRII">Secretaría de Extensión y RRII</option>
             <option value="Secretaría_de_Posgrado_e_Investigación">Secretaría de Posgrado e Investigación</option>
-          
+            <option value="Sede_Este">Sede Este</option>
+            <option value="Sede_San_Rafael">Sede San Rafael</option>
+            <option value="Sede_Gral_Alvear">Sede Gral.Alvear</option>
             
           </Form.Select>
         </Col>

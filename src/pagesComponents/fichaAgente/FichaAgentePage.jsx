@@ -1,16 +1,30 @@
 import BuscarPersona from '../../components/BuscarPersona'
-import CabeceraPersona from '../../components/agentes/CabeceraPersona'
+import CabeceraFuncion from '../../components/CabeceraFuncion'
 import DatosPersona from '../../components/agentes/DatosPersona'
 import React from 'react'
-
+import {useSelector} from 'react-redux'
+import DatosPersonales from '../../components/agentes/DatosPersonales'
+import DatosDomiconta from '../../components/agentes/DatosDomiconta'
+import DatosFamilia from '../../components/agentes/DatosFamilia'
+import CargosVigentes from '../../components/cargos/CargosVigentes'
+import CargosHistoricos from '../../components/cargos/CargosHistoricos'
 
 const FichaAgentePage = () => {
+  const legajo =useSelector(state=>state.agente.legajo)
   return (
     <>
       <BuscarPersona />
-      <CabeceraPersona titulo='Inforormación Agente'/>
+      {legajo?<>
+      <CabeceraFuncion titulo='Información Agente'/>
       <DatosPersona />
-      
+     <DatosPersonales />
+     <DatosDomiconta />
+     <DatosFamilia />
+     <CargosVigentes />
+     <CargosHistoricos />
+     
+      </>:null
+      }
     </>
   )
 }

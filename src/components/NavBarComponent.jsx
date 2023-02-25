@@ -39,14 +39,10 @@ const NavBarComponent = () => {
               <ul className="dropdown-menu">
                 <li>
                   <Link to="/nuevoCargo" className="dropdown-item" >
-                    Alta de Cargo
+                    Cargo Agente
                   </Link>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="/">
-                    Baja de Cargo
-                  </a>
-                </li>
+              
                 <li>
                   <Link to="/" className="dropdown-item" >
                     Renovaciones

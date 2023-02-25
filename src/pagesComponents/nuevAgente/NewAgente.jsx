@@ -19,7 +19,7 @@ const NewAgente = () => {
         telefono: /^\d{7,14}$/, // 7 a 14 numeros.
         legajo: /^\d{4,8}$/,
         nrodoc: /^\d{7,9}$/,
-        nrocuil: /^\d{11,11}$/,
+        nrocuil: /^\d{10,11}$/,
 
         fecha:/^\d{4}([-/.])(0?[1-9]|1[0-1-2])\1(3[01]|[12][0-9]|0?[1-9])$/,
     }
@@ -30,13 +30,17 @@ const NewAgente = () => {
    const [nrodoc, setNrodoc] = useState({campo:'', valido:null})
    const [nrocuil, setNrocuil] = useState({campo:'', valido:null})
    const [nombre, setNombre] = useState({campo:'', valido:null})
-   const [email, setEmail] = useState({campo:'', valido:null}) 
-   const [telefono, setTelefono] = useState({campo:'', valido:null})
-   const [sexo,setSexo] = useState('M')
+   const [area, setArea] = useState('')
+   const [sede, setSede] = useState('1')
    const [tipod, setTipod] = useState('1')
-   const [claustro, setClaustro] = useState('1') 
-   const [fechanac, setFechanac] = useState({campo:'',valido:null})
-   //const [persona, setPersona] = useState(null)
+   const [claustro, setClaustro] = useState('0') 
+   
+   
+
+  
+  
+
+
     const existeLegajo =async ()=>{
         if(legajo.campo.length>0){
             const res = await axios.get(`${uri}agente_leg/${legajo.campo}`)
@@ -54,10 +58,13 @@ const NewAgente = () => {
         setTipod(document.getElementById('tipodoc').value)
     }
 
-    const changeSexo =()=>{
-        setSexo(document.getElementById('sexo').value)
+    const changeSede =()=>{
+        setSede(document.getElementById('sede').value)
     }
 
+    const changeArea =()=>{
+        setArea(document.getElementById('area').value)
+    }
   
     const changeClaustro =()=>{
         setClaustro(document.getElementById('claustro').value)
@@ -69,11 +76,10 @@ const NewAgente = () => {
             tipodoc:tipod,
             nrodoc:nrodoc.campo,
             nombre:nombre.campo,
-            sexo:sexo,
+            sede:sede,
             claustro:claustro,
-            fechanac:fechanac.campo,
-            telefono:telefono.campo,
-            email:email.campo
+            area:area
+            
         }
        
         Swal
@@ -88,7 +94,8 @@ const NewAgente = () => {
         .then(resultado => {
             if (resultado.value) {
                 // Hicieron click en "Sí"
-                grabarPersona(persona)   
+                console.log(persona)
+                //grabarPersona(persona)   
                 
             } else {
                 // Dijeron que no
@@ -138,7 +145,7 @@ const NewAgente = () => {
     <main>
         
         <Formulario onSubmit={onHandleSubmit}>
-           
+           <div>
             <InputC 
                 tipo='text'
                 name='legajo'
@@ -151,7 +158,8 @@ const NewAgente = () => {
                 funcion={existeLegajo}
                
             />
-             <div>
+            </div>
+            <div>
                 <LabelF htmlFor='tipodoc'>Tipo Documento</LabelF>
                 <SelectorV name="tipodoc" id='tipodoc' onChange={changeTD}>
                     <option value="1">DNI</option>
@@ -159,6 +167,7 @@ const NewAgente = () => {
                     <option value="3">LC</option>
                 </SelectorV>
             </div>
+            <div>
             <InputC 
                 tipo='text'
                 name='nrodni'
@@ -170,6 +179,8 @@ const NewAgente = () => {
                 expreg={expresiones.nrodoc}
              
             />
+            </div>
+            <div>
              <InputC 
                 tipo='text'
                 name='nrocuil'
@@ -181,6 +192,8 @@ const NewAgente = () => {
                 expreg={expresiones.nrocuil}
              
             />
+            </div>
+            <div>
             <InputC 
                 tipo='text'
                 name='nombre'
@@ -191,25 +204,9 @@ const NewAgente = () => {
                 leyendaErr='nombre solo text no mayor a 60'
                 expreg={expresiones.nombre}
             />
-           
-                <div>
-                <LabelF htmlFor='sexo'>Sexo</LabelF>
-                <SelectorV name="sexo" id='sexo' onChange={changeSexo}>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
-                        <option value="N">No Binario</option>
-                </SelectorV>
-                </div>
-                <InputC 
-                    tipo='text'
-                    name='fechaNac'
-                    infoplace='aaaa-mm-dd'
-                    estado={fechanac}
-                    cambiarEstado={setFechanac}
-                    label='Fecha Nacimiento'
-                    leyendaErr='la fecha de nacimiento debe ser por ejemplo 2000-08-14'
-                    expreg={expresiones.fecha}
-                />        
+           </div>
+                
+
                 <div>
                 <LabelF htmlFor='claustro'>Claustro</LabelF>
                     <SelectorV name="claustro" id='claustro' onChange={changeClaustro}>
@@ -218,37 +215,59 @@ const NewAgente = () => {
                         <option value="2">Ambos</option>
                     </SelectorV>
                 </div>
+               
+                <div>
+                <LabelF htmlFor='sede'>Sede Ingreso</LabelF>
+                <SelectorV name="sede" id='sede' onChange={changeSede}>
+                        <option value="1">Sede Mendoza</option>
+                        <option value="2">Sede San Rafael</option>
+                        <option value="3">Sede Gral.Alvear</option>
+                        <option value="4">Sede Este</option>
+                </SelectorV>
+                </div>
+              
+                <div>
+                <LabelF htmlFor='area'>Area Trabajo</LabelF>
+                    <SelectorV name="area" id='area' onChange={changeArea}>
+                    
+                        <option value="Carrera_Licenciatura_en_Administracion">Carrera Licenciatura en  Administracion</option>
+                        <option value="Carrera_Licenciatura_en_Economia">Carrera Licenciatura en Economia</option>
+                        <option value="Carrera_Contador_Publico">Carrera Contador Público</option>
+                        <option value="Carrera_Licenciatura_en_Logística">Carrera Licenciatura en Logística</option>            
+                        <option value="Decanato">Decanato</option>
+                        <option value="Departamento_Clases_y_Exámenes">Departamento Clases y Exámenes</option>
+                        <option value="Departamento_Mesa_de_Entradas">Departamento Mesa de Entradas</option>
+                        <option value="Dirección_de_Alumnos">Direccion de Alumnos</option>
+                        <option value="Dirección_de_RRHH">Dirección de RRHH</option>   
+                        <option value="Dirección_de_Servicios_Generales">Dirección de Servicios Generales</option>         
+                        <option value="Dirección_de_Informática">Dirección de Informática</option>
+                        <option value="Dirección_de_Biblioteca">Dirección de Biblioteca</option>
+                        <option value="Dirección_de_Despacho">Dirección de Despacho</option>
+                        <option value="Dirección_de_Publicaciones">Dirección de Publicaciones</option>
+                        <option value="Dirección_General_de_Gestión_Administrativo_Financiera">Dirección General de Gestión Administrativo Financiera</option>
+                        <option value="Dirección_General_de_Gestión_Académica">Dirección General de Gestión Académica</option>
+                        <option value="ECONET">ECONET</option>
+                        <option value="Secretaría_de_Administración_y_Finanzas">Secretaría de Administración y Finanzas</option>
+                        <option value="Secretaria_de_Asustos_Estudiantiles">Secretaria de Asustos Estudiantiles</option>
+                        <option value="Secretaría_de_Extensión_y_RRII">Secretaría de Extensión y RRII</option>
+                        <option value="Secretaría_de_Posgrado_e_Investigación">Secretaría de Posgrado e Investigación</option>
+                        <option value="Sede_Este">Sede Este</option>
+                        <option value="Sede_San_Rafael">Sede San Rafael</option>
+                        <option value="Sede_Gral_Alvear">Sede Gral.Alvear</option>
+                                
+                    </SelectorV>
+                </div>
 
             
-            
-            <InputC 
-                tipo='text'
-                name='telefono'
-                infoplace='Ingrese Telefono Contacto'
-                estado={telefono}
-                cambiarEstado={setTelefono}
-                label='Telefono Contacto'
-                leyendaErr='formato incorrecto'
-                expreg={expresiones.telefono}
-            />
-          
-                     
-            <InputC 
-                tipo='text'
-                name='email'
-                infoplace='Ingrese Email'
-                estado={email}
-                cambiarEstado={setEmail}
-                label='Correo Electrónico'
-                leyendaErr='formato incorrecto'
-                expreg={expresiones.correo}
-            />
+                <div>
+                            
           
               
              <ContenedorBoton>
                 <Boton type='submit'>Enviar</Boton>
                 
              </ContenedorBoton>
+             </div>
              
         </Formulario>
     </main>

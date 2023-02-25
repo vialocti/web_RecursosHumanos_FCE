@@ -1,61 +1,56 @@
 
-import React,{ useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
+
+//import { useSelector} from 'react-redux'
+//import { AgenteConsulta } from '../../dominio/store/agente-thunx'
 import { Label } from '../../styles-components/formularios/FormAgente'
+import {useAgenteInfo} from '../../hooks/useAgenteInfo'
 
 const DatosPersona = () => {
-  const legajo =useSelector(state=>state.agente.legajo)
- 
-  useEffect(()=>{
+  //const legajo =useSelector(state=>state.agente.legajo)
+  //const user =useSelector(state=>state.agente.user)
+  //const dispatch = useDispatch()
+  const {agente,error,loading} = useAgenteInfo() 
 
-  },[])
- 
-  return (
-    <div className='container m-4'>
-        
+
+   if(loading) return <p>Cargando datos .....</p>
+   if(error) return <p>Error de Carga</p>
+
+return (
+    <div className='container'>
+
         <div className="row">
-              <div className='col-md-3'>
-                <Label>Legajo: {legajo}</Label>
+              <div className='col-md-1'>
+                Legajo<Label>{agente.legajo}</Label>
               </div>
 
-            <div className='col-md-3'>
-              <Label>Nombre: {legajo}</Label>
+            <div className='col-md-4'>
+              Nombre<Label> {agente.apellido}</Label>
+            </div>
+
+            <div className='col-md-1'>
+            T.Doc.<Label> {agente.tipodocumento==='1'?'DNI':agente.tipodocumento==='2'?'LE':'LC'}</Label>
             </div>
 
             <div className='col-md-2'>
-              <Label>Tipo Documento: {legajo}</Label>
+              Nro.Doc.<Label>{agente.nrodocumento}</Label>
             </div>
 
             <div className='col-md-2'>
-              <Label>Nro. Documento: {legajo}</Label>
+            Cuil<Label>{agente.nrocuil}</Label>
             </div>
 
+            
+                     
+            
             <div className='col-md-2'>
-              <Label>Nro. Cuil: {legajo}</Label>
-           </div>
-          </div>
-
-          <div className="row">
-        
-            <div className='col-md-2'>
-            <Label>Sexo:{legajo}</Label>
+            Claustro<Label>{agente.condicion==='1'?'Docente':'No Docente'}</Label>
             </div>
 
-            <div className='col-md-3'>
-            <Label>Fecha Nacimiento: {legajo}</Label>
-            </div>
-
-            <div className='col-md-3'>
-            <Label>Email Contacto: {legajo}</Label>
-            </div>
-        
-        
-            <div className='col-md-3'>
-              <Label>Telefono contacto: {legajo}</Label>
-            </div>
+           
 
          </div>
-        
+
 
     </div>
 

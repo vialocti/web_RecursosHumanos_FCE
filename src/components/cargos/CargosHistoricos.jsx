@@ -1,14 +1,21 @@
-import React,{useState, useEffect} from 'react'
+import React from 'react'
 
-const CargosHistoricos = ({legajo}) => {
-  
-  const [cargosH, setCargosH] = useState(null)
+import { useAgenteCargos } from '../../hooks/useAgenteCargos'
+import CargosConsulta from './CargosConsulta'
 
+const CargosHistoricos = () => {
+
+  const {loading,error,cargoshAgente} = useAgenteCargos()
+
+  if(loading) return <p>Cargando datos .....</p>
+    if(error) return <p>Error de Carga</p> 
+  //console.log(cargoshAgente)
   return (
-    <div>
-        CargosHistoricos
-    </div>
-  )
+    <>
+    {cargoshAgente.length > 0?<CargosConsulta  cargos={cargoshAgente} title={'Cargos Historicos'} tipo={2}/>:null
+    }
+    </>
+    )
 }
 
 export default CargosHistoricos

@@ -1,6 +1,8 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {SelectorV, LabelF, Boton, ContenedorBoton, Formulario} from '../../styles-components/formularios/FormAgente'
 import InputC from '../../elementos/InputComponent'
+
+
 
 
 const cargosDocentes=[
@@ -59,9 +61,12 @@ const FormularioCargo = () => {
     const [tcargo, setTCargo] =useState('')
     const [fecharesu, setFecharesu] = useState('')
     const [propuesta, setPropuesta] =useState('')
-    const [adicional, setadicional] =useState('')
+    const [adicional, setAdicional] =useState('')
+    const [mostrarF, setMostrarF] = useState(false)
     
-    
+    useEffect(() => {
+        setMostrarF(false)
+      }, [])
     // eleccion claustro
     const changeClaustro =()=>{
         setClaustro(document.getElementById('claustro').value)
@@ -83,10 +88,14 @@ const FormularioCargo = () => {
         e.preventDefault()
     }
 
-
+   const mostrar=()=>{
+    setMostrarF(true)
+   }
   return (
-    <div className='container mt-2'>
-            <h3>Ingresar Datos Cargo</h3>
+    <>
+    {mostrarF?
+    <div className='container'>
+            <h4>Ingresar Datos del Cargo </h4>
         <main>
             
             <Formulario onSubmit={onHandleSubmit}>
@@ -124,18 +133,21 @@ const FormularioCargo = () => {
                 </SelectorV>
 
             </div>
+
             <div>
-                <LabelF htmlFor='Nivel'>Nive <InputC 
-                tipo='text'
-                name='nroreso'
-                infoplace='Nro Resolucion de Alta'
-                estado={resolucionA}
-                cambiarEstado={setResolucionA}
-                label='Nro.Resolición de Alta'
-                leyendaErr='no menor de 4 y no mayor a 60 caracteres'
-                expreg={expresiones.resolucionA}
-            />l Cargo</LabelF>
-                <SelectorV name="nivel" id='nivel' onChange={changeClaustro}>
+                <LabelF htmlFor='ppal'>PPAL</LabelF>
+                <SelectorV name="ppal" id='ppal' onChange={changeTcargo}>
+                    <option value="10">Autoridades</option>
+                    <option value="37">Docentes</option>
+                    <option value="21">ND - Administrativos</option>
+                    
+                </SelectorV>
+
+            </div>
+            
+            <div>
+            <LabelF htmlFor='nivel'>Nivel</LabelF>
+            <SelectorV name="nivel" id='nivel' onChange={changeClaustro}>
                     {nivel.map((nv,index)=>(
                     <option value={nv.nivel} key={index}>{nv.denominacion}</option>
                     ))}
@@ -143,16 +155,7 @@ const FormularioCargo = () => {
 
             </div>
 
-            <div>
-                <LabelF htmlFor='propuesta'>Propuesta Academica</LabelF>
-                <SelectorV name="propuesta" id='propuesta' onChange={changeTcargo}>
-                    <option value="1701">1701-Embalajes y Envios de vinos a todo cuyo</option>
-                    <option value="3231">3231-Introduccion a la Economia LA</option>
-                    <option value="3241">3241-Introdiuccion a la Economia</option>
-                    <option value="4120">4120-Matematica II</option>
-                </SelectorV>
 
-            </div>
             <div>
                 <LabelF htmlFor='adicional'>Adicional</LabelF>
                 <SelectorV name="adicional" id='adicional' onChange={changeTcargo}>
@@ -163,6 +166,60 @@ const FormularioCargo = () => {
                 </SelectorV>
 
             </div>
+            
+            
+            <div>
+                <LabelF htmlFor='propuesta'>Propuesta Academica</LabelF>
+                <SelectorV name="propuesta" id='propuesta' onChange={changeTcargo}>
+                    <option value="1">CONTADOR PUBLICO NACIONAL</option>
+                    <option value="2">LICENCIATURA EN ADMINISTRACION</option>
+                    <option value="3">LICENCIATURA EN ECONOMIA</option>
+                    <option value="6">LGNR</option>
+                    <option value="7">LICENCIADO EN LOGISTICA</option>
+                    <option value="8">CONTADOR PUBLICO</option>
+                </SelectorV>
+
+            </div>
+
+            <div>
+                <LabelF htmlFor='plan'>Plan</LabelF>
+                <SelectorV name="plan" id='plan' onChange={changeTcargo}>
+                    <option value="1">Plan LLO -1</option>
+                    <option value="3">Plan 98 - 3</option>
+                    <option value="4">Plan 2019 -4</option>
+                    
+                </SelectorV>
+
+            </div>
+
+            <div>
+                <LabelF htmlFor='propuesta'>Actividad Academica</LabelF>
+                <SelectorV name="propuesta" id='propuesta' onChange={changeTcargo}>
+                    <option value="1701">1701-Embalajes y Envios de vinos a todo cuyo</option>
+                    <option value="3231">3231-Introduccion a la Economia LA</option>
+                    <option value="3241">3241-Introdiuccion a la Economia</option>
+                    <option value="4120">4120-Matematica II</option>
+                </SelectorV>
+
+            </div>
+            
+            <div>
+                <LabelF htmlFor='titular'>Titular</LabelF>
+                <SelectorV name="titular" id='titular' onChange={changeTcargo}>
+                    <option value="0">NO</option>
+                    <option value="1">SI</option>
+                    <option value="2">A Cargo</option>
+                    
+                </SelectorV>
+
+            </div>
+            
+           
+            
+           
+
+            
+            
             <InputC 
                 tipo='text'
                 name='nroreso'
@@ -198,6 +255,10 @@ const FormularioCargo = () => {
         </main>
         
     </div>
+    :<button onClick={mostrar}>Nuevo Cargo</button>
+    
+    }
+  </>
   )
 }
 

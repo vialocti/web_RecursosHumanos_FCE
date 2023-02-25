@@ -94,6 +94,7 @@ const FindClaustroComponent = () => {
       let url = `${uri}horario_claustrofechas/${condi}/${fi}/${ff}`
       //setUrlsec(sede + '/' + carrera + '/' + plan)
       setRuta(url)
+      console.log(url)
       
       
   }

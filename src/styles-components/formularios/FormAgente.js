@@ -9,8 +9,10 @@ const colores={
 
 const Formulario = styled.form`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 50px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 8px;
+    border: solid 2px rgb(126,126,126);
 
     @media(max-width:900px){
         grid-template-columns: 1fr;
@@ -97,19 +99,18 @@ const Input = styled.input`
     `
 
     const ContenedorBoton=styled.div`
+        margin-top: 35px;
+        margin-left: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        grid-column: span 2;
-
-
     `
     const Boton = styled.button`
         height: 45px;
         line-height:45px;
-        width:30% ;
-        color: '#FFF';
-        background: '#FFF';
+        width:50% ;
+        color: #FFF;
+        background: #04B;
         font-weight: bold;
         border: none;
         border-radius: 8px;
@@ -117,7 +118,7 @@ const Input = styled.input`
         transition: .1s ease all;
 
         &:hover{
-            box-shadow: 3px 0px 30px rgba(0,150,150,1);
+            box-shadow: 3px 0px 30px rgba(1,150,150,1);
         }
 
     `
@@ -139,13 +140,27 @@ const Input = styled.input`
     
     `    
     const CabTitulo =styled.h4`
-        width: 80%;
+        width: 90%;
         text-align:center;
-        margin-left: 10%;
-        background-color:azure;
+  
+        background-color:aquamarine;
         padding: 5px;
         
 `
+    const CabTituloAgente =styled.h5`
+        width: 90%;
+        text-align:left;
+        background-color:blue;
+        padding: 5px;
+        color: white;
+    `
+    const CabTituloCargo =styled.h5`
+        width: 90%;
+        text-align:left;
+        background-color:blue;
+        padding: 5px;
+        color: white;
+    `
 
     const LabelF = styled.label`
         font-weight: bold;
@@ -165,5 +180,7 @@ export {Formulario,
         SelectorV,
         LabelF,
         CabTitulo,
+        CabTituloAgente,
+        CabTituloCargo
     
     }

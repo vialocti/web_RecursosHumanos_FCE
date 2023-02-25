@@ -6,9 +6,9 @@ import { GroupInput, IconoValidacion, Input, Label, LeyendaError } from '../styl
 const InputComponent = ({name,tipo,label,infoplace,leyendaErr,estado,cambiarEstado,expreg,funcion}) => {
   
    const onHandleChange =(e)=>{
-
+    
     cambiarEstado({...estado, campo:e.target.value})
-
+    
    } 
 
 

@@ -5,6 +5,30 @@ const uric = 'http://200.12.136.74:4000/cargos/'
 //const uri = 'hhtp://localhost:4000/biometrico/'
 //const uric = 'http://localhost:4000/cargos/'
 
+//datos primarios persona
+export async function datosAgente(legajo){
+
+let rutaag = `${uri}agente_leg/${legajo}`
+
+if (legajo.length>0){
+try{
+
+    const response = await axios.get(rutaag)
+    return response.data    
+
+      
+    
+}catch(error){
+    console.log(error)
+}
+
+}
+
+
+}
+
+//buscar agente por patron de nombre
+
 export async function buscaragente_patron(patronb){
 
 
