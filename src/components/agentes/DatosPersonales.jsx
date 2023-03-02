@@ -17,7 +17,7 @@ const DatosPersonales = () => {
         {datosAgente?
         <div className="row">
               <div className='col-md-2'>
-                Fecha Nacimiento<Label>{datosAgente.fechnac}</Label>
+                Fecha Nacimiento<Label>{datosAgente.fechanac}</Label>
               </div>
 
             <div className='col-md-1'>
@@ -29,18 +29,18 @@ const DatosPersonales = () => {
             </div>
 
             <div className='col-md-2'>
-              Ingreso FCE.<Label>{datosAgente.fifce}</Label>
+              Ingreso FCE.<Label>{datosAgente.fechaIFCE}</Label>
             </div>
 
             <div className='col-md-2'>
-            Ingreso Uncu<Label>{datosAgente.fiuncu}</Label>
+            Ingreso Uncu<Label>{datosAgente.fechaIUNC}</Label>
             </div>
 
             
                      
             
             <div className='col-md-2'>
-            Ingreso APN<Label>{datosAgente.fiapn}</Label>
+            Ingreso APN<Label>{datosAgente.fechaIAPN}</Label>
             </div>
 
            

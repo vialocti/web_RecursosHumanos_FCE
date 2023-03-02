@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const NavBarComponent = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark  bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
           FCE RRHH
@@ -21,11 +21,13 @@ const NavBarComponent = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            {/*
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="/ficha">
                 Inicio
               </a>
             </li>
+        */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -44,7 +46,7 @@ const NavBarComponent = () => {
                 </li>
               
                 <li>
-                  <Link to="/" className="dropdown-item" >
+                  <Link to="/interinosCargos" className="dropdown-item" >
                     Renovaciones
                   </Link>
                 </li>

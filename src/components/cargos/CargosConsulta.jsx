@@ -1,13 +1,19 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, {useState} from 'react'
 import { faDownload, faRegistered} from '@fortawesome/free-solid-svg-icons'
 import {  CabTituloCargo } from '../../styles-components/formularios/FormAgente'
 
 //import { Container, Row, Table } from 'react-bootstrap'
 
+import {useModal} from '../../hooks/useModal'
+import { ModalComponente } from '../ModalComponente'
+import RenovacionCargoForm from '../../formModales/RenovacionCargoForm'
+
 const CargosConsulta = (props) => {
 
-    
+  const [isOpen,openModal,closeModal] = useModal()
+   
+  const [dato, setDato] = useState(null)
 
     const {cargos, title,tipo} = props
    // console.log(cargos)
@@ -15,14 +21,21 @@ const CargosConsulta = (props) => {
     console.log(nleg,id)
    }
 
-   const RenovacionCargo =(nleg,id)=>{
-    console.log(nleg,id)
+   const RenovacionCargo =(ele)=>{
+    if(ele.legajo > 0){
+      setDato(ele)
+      openModal()
+      }
    }
   
   
   
    return (
-    <div className='container'> 
+    <div className='container'>
+
+      <ModalComponente isOpen={isOpen} closeModal={closeModal}>
+         <RenovacionCargoForm dato={dato} />
+      </ModalComponente> 
     <CabTituloCargo>{title}</CabTituloCargo>   
         <div  className='row'>
          
@@ -70,7 +83,7 @@ const CargosConsulta = (props) => {
                 <td>
                   {ele.ca !=='1'?
                 <button
-              onClick={()=>RenovacionCargo(ele.legajo,ele.row_id)}
+              onClick={()=>RenovacionCargo(ele)}
             >
                <FontAwesomeIcon icon={faRegistered} />
               </button>

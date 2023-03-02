@@ -1,12 +1,18 @@
+import { faHandPointLeft } from '@fortawesome/free-regular-svg-icons'
 import React,{useEffect, useState} from 'react'
 //import moment from 'moment'
 import { Container, Table } from 'react-bootstrap'
+import SignupForm1 from '../../formModales/SignupForm1'
 //import { CSVLink } from 'react-csv'
+import {useModal} from '../../hooks/useModal'
+import { ModalComponente } from '../ModalComponente'
 
 const ReporteAsistenciaPage = ({datosasistencia}) => {
   
+  const [isOpen,openModal,closeModal] = useModal()
+  
   const [asistencia, setAsistencia] = useState([])
-
+  const [dato, setDato] = useState(null)
 
   useEffect(() => {
     
@@ -14,9 +20,21 @@ const ReporteAsistenciaPage = ({datosasistencia}) => {
   }, [datosasistencia])
   
   
+  const handlehorario =(ele)=>{
+    if(ele.legajo > 0){
+    setDato(ele)
+    openModal()
+    }
+  }
   return (
        <Container fluid>
       
+      <ModalComponente  isOpen={isOpen} closeModal={closeModal} >
+      
+        <SignupForm1 dato={dato}/>
+      </ModalComponente>
+
+
       <Table striped bordered hover size="sm" className='table'>
       <thead>
         <tr>
@@ -26,6 +44,7 @@ const ReporteAsistenciaPage = ({datosasistencia}) => {
           <th>Fecha</th>
           <th>Entrada</th>
           <th>Salida</th>
+          <th>Modificar</th>
         </tr>
       </thead>
       <tbody>
@@ -37,6 +56,10 @@ const ReporteAsistenciaPage = ({datosasistencia}) => {
           <td>{ele.fecha}</td>
           <td>{ele.Hentrada}</td>
           <td>{ele.Hsalida}</td>
+          {ele.Hsalida==='X'?
+          <td><button onClick={()=>handlehorario(ele)}>M</button></td>
+          :null
+          }
 
       </tr>
       

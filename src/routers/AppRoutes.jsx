@@ -11,6 +11,7 @@ import FindAreaComponent from '../pagesComponents/horarios/FindAreaComponent'
 import FindClaustroComponent from '../pagesComponents/horarios/FindClaustroComponent'
 import FindPersonaComponent from '../pagesComponents/horarios/FindPersonaComponent'
 import InasistenciaPage from '../pagesComponents/inasistencias/InasistenciaPage'
+import CargosInterinos from '../components/cargos/CargosInterinos'
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
             <Route exact path='/fichaAgente' element={<FichaAgentePage/>} />
             <Route exact path='/nuevoAgente' element={<NewAgente/>} />
             <Route exact path='/nuevoCargo' element={<NewCargo/>} />
+            <Route exact path='/interinosCargos' element={<CargosInterinos />} />
 
             <Route exact path='/horarioPersona' element={<FindPersonaComponent />} />
             <Route exact path='/horarioClaustro' element={<FindClaustroComponent />} />
