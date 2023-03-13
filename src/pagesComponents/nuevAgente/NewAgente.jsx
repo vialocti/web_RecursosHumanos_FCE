@@ -30,10 +30,10 @@ const NewAgente = () => {
    const [nrodoc, setNrodoc] = useState({campo:'', valido:null})
    const [nrocuil, setNrocuil] = useState({campo:'', valido:null})
    const [nombre, setNombre] = useState({campo:'', valido:null})
-   const [area, setArea] = useState('')
+   const [area, setArea] = useState('Docente')
    const [sede, setSede] = useState('1')
    const [tipod, setTipod] = useState('1')
-   const [claustro, setClaustro] = useState('0') 
+   const [claustro, setClaustro] = useState('1') 
    
    
 
@@ -78,6 +78,7 @@ const NewAgente = () => {
             nombre:nombre.campo,
             sede:sede,
             claustro:claustro,
+            nrocuil:nrocuil.campo,
             area:area
             
         }
@@ -94,8 +95,8 @@ const NewAgente = () => {
         .then(resultado => {
             if (resultado.value) {
                 // Hicieron click en "Sí"
-                console.log(persona)
-                //grabarPersona(persona)   
+                //console.log(persona)
+                grabarPersona(persona)   
                 
             } else {
                 // Dijeron que no
@@ -211,8 +212,8 @@ const NewAgente = () => {
                 <LabelF htmlFor='claustro'>Claustro</LabelF>
                     <SelectorV name="claustro" id='claustro' onChange={changeClaustro}>
                         <option value="1">Docente</option>
-                        <option value="0">No Docente</option>
-                        <option value="2">Ambos</option>
+                        <option value="2">No Docente</option>
+                        <option value="3">Ambos</option>
                     </SelectorV>
                 </div>
                
@@ -229,7 +230,8 @@ const NewAgente = () => {
                 <div>
                 <LabelF htmlFor='area'>Area Trabajo</LabelF>
                     <SelectorV name="area" id='area' onChange={changeArea}>
-                    
+                         <option value="">AREA TRABAJO</option>
+                        <option value="Docente">Docente</option>
                         <option value="Carrera_Licenciatura_en_Administracion">Carrera Licenciatura en  Administracion</option>
                         <option value="Carrera_Licenciatura_en_Economia">Carrera Licenciatura en Economia</option>
                         <option value="Carrera_Contador_Publico">Carrera Contador Público</option>

@@ -2,174 +2,295 @@ import * as Yup from 'yup';
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 
-import React from 'react';
-import { Label, LabelF } from '../styles-components/formularios/FormAgente';
+import React, { useEffect, useState } from 'react';
+import { SelectorV } from '../styles-components/formularios/FormAgente';
+import { darBajaCargo, grabarCargo } from '../services/f_axioscargos';
 
-const RenovacionCargoForm = ({dato}) =>{ 
-  console.log(dato)
-    return (
-      <Formik
-        initialValues={{ fechabaja: 'aaaa-mm-dd', fechaalta: 'aaaa-mm-dd',resubaja:'',resualta:'' }}
-        
-        validationSchema={Yup.object({
-          resualta: Yup.string()
-            .min(5, 'deben ser 5 al menos caracteres')
-            .required('Required'),
-          resubaja: Yup.string()
-            .min(5, 'deben ser 5 al menos caracteres')
-            .required('Required'),
-          fechaalta:Yup.string()
-            .min(10, 'deben ser diez caracteres')
-            .required('Required'),
-            fechabaja:Yup.string()
-            .min(10, 'deben ser diez caracteres')
-            .required('Required'),
 
-          
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
-      >
-        <Form>
-         
-         <div className='container'>
-            <div className='row'>
-              <h2>Renovacion de Cargo</h2>
-            </div>
 
-            <div className='row'>
-                <div className='col-md-3'>
-                    
-                    <div className="form-group">
-                        <h4>DATOS CARGO</h4>
-                    </div>
 
-                  <div className="form-group">
-                    <Label>LEGAJO: {dato?dato.legajo:null}</Label>
-                  </div>
-              
-                  <div className="form-group">
-                    <Label>NRO.CARGO: {dato?dato.nc:null}</Label>
-                  </div>
-                
-                  <div className="form-group">
-                    <Label>CARGO: {dato?dato.ca:null}</Label>
-                  </div>
+const RenovacionCargoForm = ({ dato, nrocargoG, funcion }) => {
 
-                  <div className="form-group">
-                    <Label>CLAUSTRO: {dato?dato.es:null}</Label>
-                  </div>
 
-                  <div className="form-group">
-                    <Label>PPAL: {dato?dato.ppal:null}</Label>
-                  </div>
-              
-                  <div className="form-group">
-                    <Label>NIVEL: {dato?dato.nv:null}</Label>
-                  </div>
-                  <div className="form-group">
-                    <Label>PLAN: {dato?dato.pl:null}</Label>
-                  </div>
-                
-                  <div className="form-group">
-                    <Label>COD MAT: {dato?dato.mat:null}</Label>
-                  </div>
 
-                  <div className="form-group">
-                    <Label>FECHA ALTA: {dato?dato.fechaAlta:null}</Label>
-                  </div>
-                
-                  <div className="form-group">
-                    <Label>NRO.RESOL.ALTA: {dato?dato.nresa:null}</Label>
-                  </div>
+  const [nroReg, setnroReg] = useState(0)
+  const [legajo, setlegajo] = useState('')
 
+  //const [fechaB, setfechaB] = useState('')
+
+
+  //console.log(dato)
+  //console.log(nrocargoG)
+  const convFecha = (fecha) => {
+    let fechaC = fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2)
+
+    return fechaC
+  }
+
+  useEffect(() => {
+
+    if (dato) {
+      setnroReg(dato.row_id)
+      setlegajo(dato.legajo)
+
+    }
+
+
+  }, [dato])
+
+  const changemotivo = () => {
+
+  }
+
+  const grabarNuevo = (values) => {
+    console.log(values)
+    let cargoNew = {
+      legajo: dato.legajo,
+      ncargo: dato.nc,
+      sede: dato.inst,
+      tcargo: dato.ca,
+      claustro: dato.es,
+      ppal: dato.ppal,
+      nivel: dato.nv,
+      adic: dato.ad,
+      plan: dato.pl,
+      codmat: dato.mat,
+      fechaA: values.fechaalta,
+      nroresA: values.resualta,
+      fechaB: values.newfechabaja,
+      ncg: nrocargoG.nroCg + 1,
+      titu: dato.titular
+
+    }
+    grabarCargo(cargoNew)
+    funcion()
+
+  }
+  const preparardatosnuevos = (values) => {
+    darBajaCargo(nroReg, legajo, '9', values.resubaja, values.fechabaja)
+  }
+
+  const valueinitial = { fechabaja: '', fechaalta: '', resubaja: '', resualta: '', newfechabaja: '' }
+
+
+
+  return (
+
+
+    <Formik
+      initialValues={valueinitial}
+
+      validationSchema={Yup.object({
+        resualta: Yup.string()
+          .min(5, 'deben ser 5 al menos caracteres').max(11, 'no mas de 11 caracters')
+          .required('Required'),
+        resubaja: Yup.string()
+          .min(5, 'deben ser 5 al menos caracteres').max(11, 'no mas de 11 caracters')
+          .required('Required'),
+        fechaalta: Yup.string()
+          .min(10, 'deben ser diez caracteres')
+          .required('Required'),
+        newfechabaja: Yup.string()
+          .min(10, 'deben ser diez caracteres')
+          .required('Required'),
+
+
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+
+        preparardatosnuevos(values);
+        setTimeout(() => {
+
+          grabarNuevo(values)
+
+          setSubmitting(false);
+        }, 800);
+
+      }
+
+      }
+
+    >
+      <Form>
+
+        <div className='container'>
+          <div className='row'>
+
+            <h2 className='h2'>Renovacion de Cargo </h2>
+
+          </div>
+
+          <div className='row'>
+
+            <div className='col-md-3'>
+
+              <div className="form-group">
+                <h5>Datos Cargo</h5>
               </div>
-                
-              <div className='col-md-2'>
+              <br />
+              <table className='table table-striped bordered'>
+                <tbody>
+                  <tr>
+                    <td><stronger>Legajo</stronger></td> <td>{dato ? dato.legajo : null}</td>
+                  </tr>
 
-                  
+                  <tr>
 
+                    <td>N°Cargo</td><td>{dato ? dato.nc : null}</td>
+                  </tr>
 
+                  <tr>
+                    <td>Cargo</td> <td>{dato ? dato.ca : null}</td>
+                  </tr>
 
+                  <tr>
+                    <td>Claustro</td><td>{dato ? dato.es : null}</td>
+                  </tr>
 
-                <LabelF>Renovacion por cambio Plan</LabelF>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="cambioplanCk" />
-                    <label class="form-check-label" for="cambioplanCk">SI</label>
-                </div>
+                  <tr>
+                    <td>PPAL</td><td>{dato ? dato.ppal : null}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Nivel</td><td>{dato ? dato.nv : null}</td>
+                  </tr>
+                  <tr>
+                    <td>Plan</td> <td>{dato ? dato.pl : null}</td>
+                  </tr>
+
+                  <tr>
+                    <td>CodMat</td><td>{dato ? dato.mat : null}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Adicional</td> <td>{dato ? dato.ad : null}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Fecha Alta</td> <td>{dato ? dato.fechaAlta : null}</td>
+                  </tr>
+
+                  <tr>
+                    <td>N.Res.Alta</td> <td>{dato ? dato.nresa : null}</td>
+                  </tr>
+                  <tr>
+                    <td>Fecha Baja</td> <td>{dato ? dato.fechaBaja : null}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-              <div className='col-md-4'>
+            <div className='col-md-1'>
+
+            </div>
+
+
+            <div className='col-md-3'>
+
               <div className="form-group">
-                  <Label htmlFor="fechabaja">FECHA DE BAJA</Label>
-                  <Field className="form-control" name="fechabaja" type="text" />
-                  <ErrorMessage name="fechabaja" />
-                </div>
-              
-              
+                <h5>Datos a Ingresar</h5>
+              </div>
+              <br />
               <div className="form-group">
-                <Label htmlFor="resubaja">RESOLUCION BAJA</Label>
+                <label>Fecha de Baja</label>
+                <Field className="form-control" name="fechabaja" type="text" />
+                <ErrorMessage name="fechabaja" />
+              </div>
+              <br />
+
+              <div className="form-group">
+                <label>Resolución Baja</label>
                 <Field className="form-control" name="resubaja" type="text" />
                 <ErrorMessage name="resubaja" />
               </div>
-               <br/>
-               <div className="form-group">
+              <br />
 
-               <div className="form-group">
-                  <Label htmlFor="fechaalta">FECHA ALTA</Label>
-                  <Field className="form-control" name="fechaalta" type="text" />
-                  <ErrorMessage name="fechaalta" />
-                </div>
-              
-              
               <div className="form-group">
-                <Label htmlFor="resualta">RESOLUCION ALTA</Label>
+                <label>Nueva Fecha Alta</label>
+                <Field className="form-control" name="fechaalta" type="text" />
+                <ErrorMessage name="fechaalta" />
+              </div>
+              <br />
+
+              <div className="form-group">
+                <label>Resolución de Alta</label>
                 <Field className="form-control" name="resualta" type="text" />
                 <ErrorMessage name="resualta" />
               </div>
+              <br />
 
 
-               <br/>
+            </div>
+            <div className='col-md-1'>
 
-               
-               <div className="form-group">
-                  <Label htmlFor="plan">CODIGO PLAN</Label>
-                  <Field className="form-control" name="plan" type="text" />
-                  <ErrorMessage name="plan" />
-                </div>
-              
-              
+            </div>
+
+
+            <div className='col-md-3'>
               <div className="form-group">
-                <Label htmlFor="codmat">COD MATERIA</Label>
+                <br />
+              </div>
+              <br />
+              <div className="form-group">
+                <label>Nueva Fecha Baja</label>
+                <Field className="form-control" name="newfechabaja" type="text" />
+                <ErrorMessage name="newfechabaja" />
+              </div>
+              <br />
+
+
+
+              <label htmlFor='motibaja'>Motivo Baja</label>
+              <div className="form-group">
+                <SelectorV name="motibaja" id='motibaja' onChange={changemotivo}>
+                  <option value="1">Término de Funciones</option>
+                  <option value="2">Renuncia</option>
+                  <option value="3">Cesantia</option>
+                  <option value="4">Prescindibilidad</option>
+                  <option value="5">Exoneración</option>
+                  <option value="6">Jubilación</option>
+                  <option value="7">Traslado</option>
+                  <option value="8">Edad límite</option>
+                  <option value="9">Renovación</option>
+                </SelectorV>
+              </div>
+              <br />
+
+
+              <div className="form-group">
+                <label htmlFor="plan">Plan</label>
+                <Field className="form-control" name="plan" type="text" />
+                <ErrorMessage name="plan" />
+              </div>
+
+              <br />
+              <div className="form-group">
+                <label htmlFor="codmat">Cod.Mat</label>
                 <Field className="form-control" name="codmat" type="text" />
                 <ErrorMessage name="codmat" />
               </div>
-              <br/>
-               <div className="form-group">
-                
-                 <button className="btn btn-primary" type="submit">Modificar</button>
-                 
-               </div>
-              
-            </div>
+              <br />
+              <div className="form-group">
 
-           
+                <button className="btn btn-primary" type="submit">Renovar</button>
 
               </div>
 
-             
             </div>
 
-         </div>
-         
-         
-         {/* */}
-        </Form>
-      </Formik>
-    );
-      };
-  export default RenovacionCargoForm
+
+
+          </div>
+
+
+        </div>
+
+
+
+
+        {/* */}
+      </Form>
+    </Formik>
+  );
+};
+export default RenovacionCargoForm

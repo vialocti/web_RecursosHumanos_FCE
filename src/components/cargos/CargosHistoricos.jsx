@@ -8,7 +8,7 @@ const CargosHistoricos = () => {
   const {loading,error,cargoshAgente} = useAgenteCargos()
 
   if(loading) return <p>Cargando datos .....</p>
-    if(error) return <p>Error de Carga</p> 
+  if(error) return <p>Error de Carga</p> 
   //console.log(cargoshAgente)
   return (
     <>

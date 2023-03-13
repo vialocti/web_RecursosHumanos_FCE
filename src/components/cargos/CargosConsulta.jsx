@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { faDownload, faRegistered} from '@fortawesome/free-solid-svg-icons'
 import {  CabTituloCargo } from '../../styles-components/formularios/FormAgente'
 
@@ -8,23 +8,43 @@ import {  CabTituloCargo } from '../../styles-components/formularios/FormAgente'
 import {useModal} from '../../hooks/useModal'
 import { ModalComponente } from '../ModalComponente'
 import RenovacionCargoForm from '../../formModales/RenovacionCargoForm'
+import { getLastNroCargo } from '../../services/f_axioscargos'
+import { useSelector } from 'react-redux'
+
 
 const CargosConsulta = (props) => {
-
+  
+  const {legajo}=useSelector(state=>state.agente) 
   const [isOpen,openModal,closeModal] = useModal()
-   
+  
   const [dato, setDato] = useState(null)
+  const [nrocargos, setNrocargos] =useState('')
+  
+
+  useEffect(() => {
+    const cargardatos=async()=>{
+      setNrocargos(await getLastNroCargo(legajo))
+      
+      }
+      cargardatos()
+  }, [])
+  
 
     const {cargos, title,tipo} = props
    // console.log(cargos)
-   const bajaCargo =(nleg,id)=>{
-    console.log(nleg,id)
-   }
+   
 
    const RenovacionCargo =(ele)=>{
     if(ele.legajo > 0){
       setDato(ele)
+      
       openModal()
+      }
+   }
+
+   const bajaCargo =(ele)=>{
+    if(ele.legajo > 0){
+    
       }
    }
   
@@ -34,7 +54,7 @@ const CargosConsulta = (props) => {
     <div className='container'>
 
       <ModalComponente isOpen={isOpen} closeModal={closeModal}>
-         <RenovacionCargoForm dato={dato} />
+         <RenovacionCargoForm dato={dato} nrocargoG={nrocargos[0]} funcion={closeModal}  />
       </ModalComponente> 
     <CabTituloCargo>{title}</CabTituloCargo>   
         <div  className='row'>
@@ -91,7 +111,7 @@ const CargosConsulta = (props) => {
               </td>
               <td>
                 <button
-              onClick={()=>bajaCargo(ele.legajo,ele.row_id)}
+              onClick={()=>bajaCargo(ele)}
             >
                <FontAwesomeIcon icon={faDownload} />
               </button>

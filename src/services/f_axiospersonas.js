@@ -64,10 +64,11 @@ export async function traerAgentes (){
 
 
 export async function grabarPersona(persona) {
-    console.log(persona)
+   // console.log(persona)
     try {
         
         const resu = await axios.post(`${uric}addAgente`, persona)
+        return resu
         
         console.warn(resu)
     } catch (error) {

@@ -31,7 +31,7 @@ const ReporteAsistenciaPage = ({datosasistencia}) => {
       
       <ModalComponente  isOpen={isOpen} closeModal={closeModal} >
       
-        <SignupForm1 dato={dato}/>
+        <SignupForm1 dato={dato} funcion={closeModal}/>
       </ModalComponente>
 
 
